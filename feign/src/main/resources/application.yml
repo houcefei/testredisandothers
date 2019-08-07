@@ -1,0 +1,52 @@
+server:
+  port: 8004
+spring:
+  application:
+    name: feign
+  datasource:
+    # 驱动配置信息
+    url: jdbc:mysql://127.0.0.1:3306/mysql?3useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: houcefei
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+  zipkin:
+    # 设置zipkin服务的地址
+    base-url: http://localhost:9411/
+    sleuth:
+      sampler:
+        # 设置采集日志的百分比,测试1，正式为默认值0.1
+        probability: 1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+feign:
+  hystrix:
+    enabled: true
+    command:
+      default:
+        execution:
+          timeout:
+            enabled: true
+        isolation:
+          thread:
+            #目前有两个容器实例，单个请求超时5s,+重试>10s，超15s则熔断
+            timeoutInMilliseconds: 15000
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include:  'hystrix.stream'
+logging:
+  level:
+    root: INFO
+    org.springframework.web.servlet.DispatcherServlet: DEBUG
+    org.springframework.cloud.sleuth: DEBUG
+
+

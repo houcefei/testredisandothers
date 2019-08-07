@@ -1,0 +1,45 @@
+server:
+  port: 8002
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    instance:
+      prefer-ip-address: true
+#mybatis mapper文件的位置，Sql语句所在文件
+spring:
+  application:
+    name: provider
+  datasource:
+    # 驱动配置信息
+    url: jdbc:mysql://127.0.0.1:3306/mysql?3useUnicode=true&characterEncoding=utf8&serverTimezone=UTC
+    username: houcefei
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    # 连接池的配置信息
+  zipkin:
+    # 设置zipkin服务的地址
+    base-url: http://localhost:9411/
+    sleuth:
+      sampler:
+        # 设置采集日志的百分比,测试1，正式为默认值0.1
+        probability: 1
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    #password: 123456
+    pool:
+      jedis:
+        max-active: 100
+        max-idle: 10
+        max-wait: 100000
+        timeout: 0
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+#  config-location: classpath:generate/*.xmle
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+  params: count=countSql
+
